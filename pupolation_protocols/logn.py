@@ -1,4 +1,7 @@
 import random
+import math
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def allX(array):
@@ -45,6 +48,13 @@ def interaction(array, numX):
         ifInterchanged[interactionIndex] = 1
     return numX
 
+def interactionOnePair(array, numX):
+    size = len(array)
+    interactionIndex1 = random.randint(0, size - 1)
+    interactionIndex2 = random.randint(0, size - 1)
+    numX =  exchangeMessage(array, interactionIndex1, interactionIndex2, numX)
+    return numX
+
 def main(k):
     size = k
     array = [1] + [0] * (size - 1)
@@ -52,14 +62,29 @@ def main(k):
     times = 0
     if numX < size:
         while numX < size:
-            numX = interaction(array, numX)
+            numX = interactionOnePair(array, numX)
+            #numX = interaction(array, numX)
+
+            #print("number of x:",numX,"number of y:", size - numX)
+
             times = times + 1
     print(size, times)
+    return size, times
+    #plt.plot(size, times)
+    #plt.show
+    #fig, ax = plt.subplots()             # Create a figure containing a single Axes. # Plot some data on the Axes.
+    #plt.show()                           # Show the figure.
 
 
 if __name__ == "__main__":
-    for i in range(1, 12):
-        inputSize = 2 ** i
-        main(inputSize)
+
+    x, y = [], []
+    for i in range(1,25):
+        k = 2**i
+        a, b = main(k)
+        x.append(a)
+        y.append((b/a)**2)
         
+    plt.plot(x, y)
+    plt.show()
     print("end")
